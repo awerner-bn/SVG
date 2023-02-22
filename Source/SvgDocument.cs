@@ -7,7 +7,6 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Linq;
-using Svg.Css;
 using System.Threading;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -441,30 +440,31 @@ namespace Svg
                 }
             }
 
-            if (styles.Any())
-            {
-                var cssTotal = string.Join(Environment.NewLine, styles.Select(s => s.Content).ToArray());
-                var stylesheetParser = new StylesheetParser(true, true);
-                var stylesheet = stylesheetParser.Parse(cssTotal);
+            //--- Fizzler removed ---
+            //if (styles.Any())
+            //{
+            //    var cssTotal = string.Join(Environment.NewLine, styles.Select(s => s.Content).ToArray());
+            //    var stylesheetParser = new StylesheetParser(true, true);
+            //    var stylesheet = stylesheetParser.Parse(cssTotal);
 
-                foreach (var rule in stylesheet.StyleRules)
-                    try
-                    {
-                        var rootNode = new NonSvgElement();
-                        rootNode.Children.Add(svgDocument);
+            //    foreach (var rule in stylesheet.StyleRules)
+            //        try
+            //        {
+            //            var rootNode = new NonSvgElement();
+            //            rootNode.Children.Add(svgDocument);
 
-                        var elemsToStyle = rootNode.QuerySelectorAll(rule.Selector.Text, elementFactory);
-                        foreach (var elem in elemsToStyle)
-                            foreach (var declaration in rule.Style)
-                            {
-                                elem.AddStyle(declaration.Name, declaration.Value, rule.Selector.GetSpecificity());
-                            }
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.TraceWarning(ex.Message);
-                    }
-            }
+            //            var elemsToStyle = rootNode.QuerySelectorAll(rule.Selector.Text, elementFactory);
+            //            foreach (var elem in elemsToStyle)
+            //                foreach (var declaration in rule.Style)
+            //                {
+            //                    elem.AddStyle(declaration.Name, declaration.Value, rule.Selector.GetSpecificity());
+            //                }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            Trace.TraceWarning(ex.Message);
+            //        }
+            //}
 
             svgDocument?.FlushStyles(true);
             return svgDocument;
